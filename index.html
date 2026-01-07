@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculadora avanzada de costos de Twilio con análisis de IA y visualización de datos">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Calculadora Estratégica Twilio | World Vision Telecom</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body class="light-theme">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Cargando Calculadora Twilio...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="https://assets.zyrosite.com/ALpbKwnbRlSMvo8k/fother1-mePgkz3g7ZIk5GOB.png"
+                         alt="Logo Fother"
+                         class="logo"
+                         onerror="this.style.display='none'">
+                    <img src="https://assets.zyrosite.com/ALpbKwnbRlSMvo8k/descarga-dJoPBJGvE7H04Pe8.png"
+                         alt="Logo Nubepbx"
+                         class="logo"
+                         onerror="this.style.display='none'">
+                </div>
+                <div class="header-title">
+                    <h1 class="main-title">
+                        <span class="title-gradient">Calculadora Estratégica</span>
+                        <span class="title-brand">Twilio</span>
+                    </h1>
+                    <p class="subtitle">Estima costos, visualiza datos y obtén análisis de IA personalizado</p>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="icon-btn" aria-label="Cambiar tema" title="Cambiar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="save-scenario-btn" class="icon-btn" aria-label="Guardar escenario" title="Guardar escenario">
+                        <i class="fas fa-save"></i>
+                    </button>
+                    <button id="compare-scenarios-btn" class="icon-btn" aria-label="Comparar escenarios" title="Comparar escenarios">
+                        <i class="fas fa-code-compare"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Calculator Section -->
+            <section class="calculator-section">
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-tab="messaging">
+                        <i class="fas fa-comment-sms"></i>
+                        <span>Mensajería</span>
+                    </button>
+                    <button class="tab-btn" data-tab="voice">
+                        <i class="fas fa-phone"></i>
+                        <span>Voz</span>
+                    </button>
+                    <button class="tab-btn" data-tab="sip">
+                        <i class="fas fa-network-wired"></i>
+                        <span>SIP Trunking</span>
+                    </button>
+                    <button class="tab-btn" data-tab="inbound">
+                        <i class="fas fa-phone-volume"></i>
+                        <span>Entrantes</span>
+                    </button>
+                    <button class="tab-btn" data-tab="numbers">
+                        <i class="fas fa-hashtag"></i>
+                        <span>Números</span>
+                    </button>
+                    <button class="tab-btn" data-tab="additional">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Adicionales</span>
+                    </button>
+                </div>
+
+                <div class="tab-content-container">
+                    <!-- SMS Tab -->
+                    <div class="tab-content active" data-content="messaging">
+                        <div class="card animate-in">
+                            <div class="card-header">
+                                <i class="fas fa-comment-sms card-icon"></i>
+                                <h2 class="card-title">SMS Salientes</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="msg-country" class="form-label">
+                                            <i class="fas fa-globe"></i>
+                                            País de Destino
+                                        </label>
+                                        <select id="msg-country" class="form-select" aria-label="País de destino para SMS"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="msg-volume" class="form-label">
+                                            <i class="fas fa-envelope"></i>
+                                            Cantidad de Mensajes
+                                        </label>
+                                        <input type="number" id="msg-volume" value="1000" min="0" step="100" class="form-input" aria-label="Cantidad de mensajes SMS">
+                                        <div class="input-slider-container">
+                                            <input type="range" id="msg-volume-slider" min="0" max="10000" value="1000" step="100" class="form-slider" aria-label="Deslizador de cantidad de mensajes">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voice Tab -->
+                    <div class="tab-content" data-content="voice">
+                        <div class="card animate-in">
+                            <div class="card-header">
+                                <i class="fas fa-phone card-icon"></i>
+                                <h2 class="card-title">Llamadas de Voz Salientes</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="voice-country" class="form-label">
+                                            <i class="fas fa-globe"></i>
+                                            País de Destino
+                                        </label>
+                                        <select id="voice-country" class="form-select" aria-label="País de destino para llamadas"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="voice-minutes" class="form-label">
+                                            <i class="fas fa-clock"></i>
+                                            Total de Minutos
+                                        </label>
+                                        <input type="number" id="voice-minutes" value="500" min="0" step="50" class="form-input" aria-label="Total de minutos de voz">
+                                        <div class="input-slider-container">
+                                            <input type="range" id="voice-minutes-slider" min="0" max="5000" value="500" step="50" class="form-slider" aria-label="Deslizador de minutos de voz">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIP Trunking Tab -->
+                    <div class="tab-content" data-content="sip">
+                        <div class="card animate-in">
+                            <div class="card-header">
+                                <i class="fas fa-network-wired card-icon"></i>
+                                <h2 class="card-title">SIP Trunking Saliente</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="sip-country" class="form-label">
+                                            <i class="fas fa-globe"></i>
+                                            País de Destino
+                                        </label>
+                                        <select id="sip-country" class="form-select" aria-label="País de destino para SIP"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sip-minutes" class="form-label">
+                                            <i class="fas fa-clock"></i>
+                                            Total de Minutos
+                                        </label>
+                                        <input type="number" id="sip-minutes" value="500" min="0" step="50" class="form-input" aria-label="Total de minutos SIP">
+                                        <div class="input-slider-container">
+                                            <input type="range" id="sip-minutes-slider" min="0" max="5000" value="500" step="50" class="form-slider" aria-label="Deslizador de minutos SIP">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inbound Tab -->
+                    <div class="tab-content" data-content="inbound">
+                        <div class="card animate-in">
+                            <div class="card-header">
+                                <i class="fas fa-phone-volume card-icon"></i>
+                                <h2 class="card-title">Llamadas Entrantes</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="inbound-country" class="form-label">
+                                            <i class="fas fa-globe"></i>
+                                            País de Origen
+                                        </label>
+                                        <select id="inbound-country" class="form-select" aria-label="País de origen para llamadas entrantes"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inbound-minutes" class="form-label">
+                                            <i class="fas fa-clock"></i>
+                                            Total de Minutos
+                                        </label>
+                                        <input type="number" id="inbound-minutes" value="200" min="0" step="50" class="form-input" aria-label="Total de minutos entrantes">
+                                        <div class="input-slider-container">
+                                            <input type="range" id="inbound-minutes-slider" min="0" max="5000" value="200" step="50" class="form-slider" aria-label="Deslizador de minutos entrantes">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone Numbers Tab -->
+                    <div class="tab-content" data-content="numbers">
+                        <div class="card animate-in">
+                            <div class="card-header">
+                                <i class="fas fa-hashtag card-icon"></i>
+                                <h2 class="card-title">Números de Teléfono</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-grid form-grid-3">
+                                    <div class="form-group">
+                                        <label for="pn-country" class="form-label">
+                                            <i class="fas fa-flag"></i>
+                                            País
+                                        </label>
+                                        <select id="pn-country" class="form-select" aria-label="País para números telefónicos"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pn-type" class="form-label">
+                                            <i class="fas fa-phone-square"></i>
+                                            Tipo de Número
+                                        </label>
+                                        <select id="pn-type" class="form-select" disabled aria-label="Tipo de número telefónico"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pn-quantity" class="form-label">
+                                            <i class="fas fa-sort-numeric-up"></i>
+                                            Cantidad
+                                        </label>
+                                        <input type="number" id="pn-quantity" value="1" min="0" class="form-input" aria-label="Cantidad de números">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Services Tab -->
+                    <div class="tab-content" data-content="additional">
+                        <div class="card animate-in">
+                            <div class="card-header">
+                                <i class="fas fa-plus-circle card-icon"></i>
+                                <h2 class="card-title">Servicios Adicionales</h2>
+                            </div>
+                            <div class="card-body">
+                                <div id="additional-services-container" class="form-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary Section -->
+            <aside class="summary-section">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <h2 class="summary-title">
+                            <i class="fas fa-chart-pie"></i>
+                            Resumen de Costos
+                        </h2>
+                        <button id="export-pdf-btn" class="btn-secondary btn-sm" title="Exportar a PDF">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF
+                        </button>
+                    </div>
+
+                    <!-- Cost Chart -->
+                    <div class="chart-container">
+                        <canvas id="cost-chart"></canvas>
+                    </div>
+
+                    <!-- Cost Details -->
+                    <div class="cost-details">
+                        <div class="cost-item">
+                            <span class="cost-label">
+                                <span class="cost-dot" style="background: #3b82f6;"></span>
+                                Mensajería
+                            </span>
+                            <span id="msg-cost" class="cost-value">$0.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">
+                                <span class="cost-dot" style="background: #8b5cf6;"></span>
+                                Voz Saliente
+                            </span>
+                            <span id="voice-cost" class="cost-value">$0.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">
+                                <span class="cost-dot" style="background: #10b981;"></span>
+                                SIP Trunking
+                            </span>
+                            <span id="sip-cost" class="cost-value">$0.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">
+                                <span class="cost-dot" style="background: #f59e0b;"></span>
+                                Voz Entrante
+                            </span>
+                            <span id="inbound-cost" class="cost-value">$0.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">
+                                <span class="cost-dot" style="background: #ef4444;"></span>
+                                Números Telefónicos
+                            </span>
+                            <span id="pn-cost" class="cost-value">$0.00</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">
+                                <span class="cost-dot" style="background: #ec4899;"></span>
+                                Servicios Adicionales
+                            </span>
+                            <span id="additional-cost" class="cost-value">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Total Cost -->
+                    <div class="total-cost-container">
+                        <p class="total-label">Costo Total Estimado (USD)</p>
+                        <p id="total-cost" class="total-amount">$0.00</p>
+                        <div class="auto-save-indicator">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="auto-save-text">Auto-guardado</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button id="ai-analysis-button" class="btn-primary btn-lg">
+                            <i class="fas fa-robot"></i>
+                            <span>Analizar con IA</span>
+                        </button>
+                        <button id="reset-button" class="btn-secondary btn-lg">
+                            <i class="fas fa-rotate-right"></i>
+                            <span>Reiniciar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Saved Scenarios -->
+                <div class="scenarios-card">
+                    <div class="scenarios-header">
+                        <h3 class="scenarios-title">
+                            <i class="fas fa-bookmark"></i>
+                            Escenarios Guardados
+                        </h3>
+                    </div>
+                    <div id="scenarios-list" class="scenarios-list">
+                        <p class="empty-state">No hay escenarios guardados</p>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p class="footer-text">
+                <i class="fas fa-info-circle"></i>
+                Calculadora creada con datos de precios de Twilio. Los precios reales pueden variar.
+            </p>
+            <p class="footer-credits">
+                Powered by <strong>World Vision Telecom</strong> | Análisis de IA por <strong>Alex</strong>
+            </p>
+        </footer>
+    </div>
+
+    <!-- AI Analysis Modal -->
+    <div id="ai-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-robot"></i>
+                    Análisis de IA - Alex
+                </h3>
+                <button id="close-modal-button" class="modal-close" aria-label="Cerrar modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="ai-loader" class="ai-loader">
+                    <div class="ai-loader-animation"></div>
+                    <p class="ai-loader-text">Alex está analizando tus datos...</p>
+                </div>
+                <div id="ai-response-text" class="ai-response"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compare Scenarios Modal -->
+    <div id="compare-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-code-compare"></i>
+                    Comparar Escenarios
+                </h3>
+                <button id="close-compare-modal" class="modal-close" aria-label="Cerrar modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="comparison-content" class="comparison-content">
+                    <p class="empty-state">Selecciona al menos 2 escenarios para comparar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Scenario Modal -->
+    <div id="save-scenario-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-save"></i>
+                    Guardar Escenario
+                </h3>
+                <button id="close-save-modal" class="modal-close" aria-label="Cerrar modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="scenario-name" class="form-label">
+                        <i class="fas fa-tag"></i>
+                        Nombre del Escenario
+                    </label>
+                    <input type="text" id="scenario-name" class="form-input" placeholder="Ej: Cliente 34 agentes" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="scenario-description" class="form-label">
+                        <i class="fas fa-align-left"></i>
+                        Descripción (opcional)
+                    </label>
+                    <textarea id="scenario-description" class="form-textarea" placeholder="Breve descripción del escenario..." rows="3" maxlength="200"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button id="confirm-save-scenario" class="btn-primary">
+                        <i class="fas fa-check"></i>
+                        Guardar
+                    </button>
+                    <button id="cancel-save-scenario" class="btn-secondary">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

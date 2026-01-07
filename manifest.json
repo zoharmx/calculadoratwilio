@@ -1,0 +1,27 @@
+{
+  "name": "Calculadora Estratégica Twilio",
+  "short_name": "Twilio Calc",
+  "description": "Calculadora avanzada de costos de Twilio con análisis de IA y visualización de datos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "https://www.twilio.com/content/dam/twilio-com/global/en/blog/legacy/2019/pwa-vs-native-mobile-apps.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://www.twilio.com/content/dam/twilio-com/global/en/blog/legacy/2019/pwa-vs-native-mobile-apps.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "finance", "productivity"],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
