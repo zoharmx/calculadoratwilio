@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(npx vercel --version)",
+      "Bash(npx vercel:*)",
+      "Bash(cat:*)",
+      "Bash(node:*)",
+      "Bash(for file in js/*.js)",
+      "Bash(do echo \"Checking $file...\")",
+      "Bash(echo:*)",
+      "Bash(done)"
     ]
   }
 }

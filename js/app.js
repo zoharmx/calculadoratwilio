@@ -40,14 +40,14 @@ class TwilioCalculatorApp {
             console.error('Error initializing app:', error);
             Utils.showToast('Error al inicializar la aplicación', 'error', 5000);
         }
-    },
+    }
 
     showLoadingScreen() {
         const loadingScreen = document.getElementById('loading-screen');
         if (loadingScreen) {
             loadingScreen.classList.remove('hidden');
         }
-    },
+    }
 
     async hideLoadingScreen() {
         return new Promise(resolve => {
@@ -59,7 +59,7 @@ class TwilioCalculatorApp {
                 resolve();
             }, 800);
         });
-    },
+    }
 
     setupGlobalListeners() {
         // Theme toggle
@@ -111,7 +111,7 @@ class TwilioCalculatorApp {
                 console.log('Tab visible - resuming animations');
             }
         });
-    },
+    }
 
     setupScenarioManagement() {
         // Save scenario modal
@@ -181,7 +181,7 @@ class TwilioCalculatorApp {
                 });
             }
         });
-    },
+    }
 
     showCompareScenarios() {
         if (Calculator.scenarios.length < 2) {
@@ -193,7 +193,7 @@ class TwilioCalculatorApp {
 
         // Show all scenarios in comparison
         ChartManager.createComparisonChart(Calculator.scenarios);
-    },
+    }
 
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
